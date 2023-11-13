@@ -21,7 +21,7 @@ void app_main(void)
     uint32_t flash_size;
     esp_chip_info(&chip_info);
     printf("This is %s chip with %d CPU core(s), %s%s%s%s, ",
-           CONF189IG_IDF_TARGET,
+           CONFIG_IDF_TARGET,
            chip_info.cores,
            (chip_info.features & CHIP_FEATURE_WIFI_BGN) ? "WiFi/" : "",
            (chip_info.features & CHIP_FEATURE_BT) ? "BT" : "",
