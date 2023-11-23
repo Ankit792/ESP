@@ -12,9 +12,15 @@
 uint8_t ble_addr_type;
 void ble_app_advertise(void);
 
-// GATT read
+// GATT read write
 #define DEVICE_INFO_SERVICE 0x180A
 #define MANUFACTURER_NAME 0x2A29
+
+static int device_write(uint16_t conn_handle, uint16_t attr_handle, struct ble_gatt_access_ctxt *ctxt, void *arg)
+{
+    printf("incoming message: %.*s\n", ctxt->om->om_len, ctxt->om->om_data);
+    return 0;
+}
 
 static int device_info(uint16_t conn_handle, uint16_t attr_handle, struct ble_gatt_access_ctxt *ctxt, void *arg)
 {
@@ -31,6 +37,11 @@ static const struct ble_gatt_svc_def gat_svcs[] = {
                 .uuid = BLE_UUID16_DECLARE(MANUFACTURER_NAME),
                 .flags = BLE_GATT_CHR_F_READ,
                 .access_cb = device_info
+            },
+            {
+                .uuid = BLE_UUID128_DECLARE(0x00,0x11,0x22,0x33,0x44,0x55,0x66,0x77,0x88,0x99,0xaa,0xbb,0xcc,0xdd,0xee,0xff),
+                .flags = BLE_GATT_CHR_F_WRITE,
+                .access_cb = device_write
             },
             {
                 0
